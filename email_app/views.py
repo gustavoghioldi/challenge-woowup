@@ -18,7 +18,7 @@ class SendEmailView(APIView):
         serializer = EmailSerializer(data=request.data)
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
+        
         subject = serializer.validated_data["subject"]
         message = serializer.validated_data["message"]
         from_email = serializer.validated_data["from_email"]

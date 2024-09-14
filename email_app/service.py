@@ -41,6 +41,9 @@ class HandleEmailService:
 
     def sending(self, subject, message, from_email, recipient_list) -> list:
         max_attempts = len(self.backends)
+        if max_attempts == 0:
+            return {"error": "There are no services available, you must add at least one"}, status.HTTP_424_FAILED_DEPENDENCY
+        
         for attempt in range(max_attempts):
             try:
                 self.__send_my_email(
