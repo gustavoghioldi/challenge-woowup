@@ -10,7 +10,7 @@ services:
     name: woowup mail sender
     runtime: python
     buildCommand: "./build.sh"
-    startCommand: "python -m gunicorn mysite.asgi:application"
+    startCommand: "python -m gunicorn email_project.asgi:application"
     envVars:
       - key: DATABASE_URL
         fromDatabase:
