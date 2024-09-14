@@ -14,7 +14,9 @@
             "django": true,
             "autoStartBrowser": false,
             "program": "${workspaceFolder}/manage.py",
-            "env": {}
+            "env": {
+                "LOCAL":"1"
+            }
         },
         {
             "name": "Python Debugger: Shell",
@@ -26,7 +28,23 @@
             "django": true,
             "autoStartBrowser": false,
             "program": "${workspaceFolder}/manage.py",
-            "env": {}
+            "env": {
+                "LOCAL":"1"
+            }
+        },
+        {
+            "name": "Python Debugger: Test",
+            "type": "debugpy",
+            "request": "launch",
+            "args": [
+                "test"
+            ],
+            "django": true,
+            "autoStartBrowser": false,
+            "program": "${workspaceFolder}/manage.py",
+            "env": {
+                "LOCAL":"1"
+            }
         }
     ]
 }

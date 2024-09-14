@@ -19,6 +19,7 @@ services:
     build: .
     command: >
       sh -c "python manage.py migrate --noinput &&
+             python manage.py test &&
              python manage.py createfirstuser &&
              gunicorn email_project.wsgi:application --bind 0.0.0.0:8000"
     volumes:

@@ -87,20 +87,20 @@ WSGI_APPLICATION = "email_project.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
-       'default': dj_database_url.config(
-        # Replace this value with your local database's connection string.
-        default='postgresql://myuser:mypassword@db:5432/mydatabase',
-        conn_max_age=600
-    )
-}
 # DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.sqlite3",
-#         "NAME": "mydatabase",  # This is where you put the name of the db file.
-#         # If one doesn't exist, it will be created at migration time.
-#     }
+#        'default': dj_database_url.config(
+#         # Replace this value with your local database's connection string.
+#         default='postgresql://myuser:mypassword@db:5432/mydatabase',
+#         conn_max_age=600
+#     )
 # }
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": "mydatabase",  # This is where you put the name of the db file.
+        # If one doesn't exist, it will be created at migration time.
+    }
+}
 # Configuración de caché
 CACHES = {
     'default': {

@@ -1,6 +1,4 @@
 from django.db import models
-from django.core.exceptions import ValidationError
-
 
 class EmailConfigurationModel(models.Model):
     broker_name = models.CharField(max_length=255, primary_key=True)
