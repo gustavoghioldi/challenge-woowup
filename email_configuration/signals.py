@@ -7,7 +7,7 @@ from .models import EmailConfigurationModel
 @receiver(post_save, sender=EmailConfigurationModel)
 @receiver(post_delete, sender=EmailConfigurationModel)
 def clear_cache(sender, **kwargs):
-    if kwargs.get("created") and kwargs.get("instance").is_primary:
+    if kwargs.get("instance").is_primary:
         EmailConfigurationModel.objects.filter(is_primary=True).exclude(
             pk=kwargs.get("instance").pk
         ).update(is_primary=False)

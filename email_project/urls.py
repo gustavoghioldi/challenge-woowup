@@ -7,15 +7,8 @@ from email_configuration.views import (
 
 urlpatterns = [
     path("api/", include("email_app.urls")),
-    path(
-        "api/token/",
-        CustomTokenObtainPairView.as_view(),
-        name="token_obtain_pair"),
-    path(
-        "api/token/refresh/",
-        CustomTokenRefreshView.as_view(),
-        name="token_refresh"
-    ),
+    path("api/token/", CustomTokenObtainPairView.as_view(), name="token_obtain_pair"),
+    path("api/token/refresh/", CustomTokenRefreshView.as_view(), name="token_refresh"),
     path(
         "api/configuration/",
         EmailConfigurationListCreateAPIView.as_view(),

@@ -7,6 +7,7 @@ from anymail.exceptions import AnymailAPIError
 from .serializers import EmailSerializer
 from email_configuration.models import EmailConfigurationModel
 
+
 class EmailSerializerTest(TestCase):
 
     def test_valid_data(self):
@@ -57,7 +58,7 @@ class SendEmailTest(TestCase):
             EmailConfigurationModel.objects.create(
                 broker_name=f"broker-{i}",
                 broker_configuration={},
-                is_primary=True if i == 0 else False
+                is_primary=True if i == 0 else False,
             )
 
     @patch("anymail.message.AnymailMessage.send")
@@ -71,7 +72,9 @@ class SendEmailTest(TestCase):
         }
         response = self.client.post("/api/send-email/", data, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data["message"], "Emails sent successfully with broker-0")
+        self.assertEqual(
+            response.data["message"], "Emails sent successfully with broker-0"
+        )
 
     @patch("anymail.message.AnymailMessage.send")
     def test_send_email_failover(self, mock_send_mail):
@@ -87,7 +90,9 @@ class SendEmailTest(TestCase):
         }
         response = self.client.post("/api/send-email/", data, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data["message"], "Emails sent successfully with broker-1")
+        self.assertEqual(
+            response.data["message"], "Emails sent successfully with broker-1"
+        )
 
     @patch("anymail.message.AnymailMessage.send")
     def test_send_email_failover1(self, mock_send_mail):
@@ -104,4 +109,6 @@ class SendEmailTest(TestCase):
         }
         response = self.client.post("/api/send-email/", data, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data["message"], "Emails sent successfully with broker-2")
+        self.assertEqual(
+            response.data["message"], "Emails sent successfully with broker-2"
+        )

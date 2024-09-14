@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 import os
 import dj_database_url
+import sys
 
 from pathlib import Path
 
@@ -46,14 +47,17 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework_simplejwt",
     "anymail",
-    "health_check",  # required
-    "health_check.db",  # stock Django health checkers
+    "health_check",
+    "health_check.db",
     "health_check.cache",
+    "corsheaders",
+    # apps
     "email_app",
     "email_configuration",
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -87,31 +91,25 @@ WSGI_APPLICATION = "email_project.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-# DATABASES = {
-#        'default': dj_database_url.config(
-#         # Replace this value with your local database's connection string.
-#         default='postgresql://myuser:mypassword@db:5432/mydatabase',
-#         conn_max_age=600
-#     )
-# }
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": "mydatabase",  # This is where you put the name of the db file.
-        # If one doesn't exist, it will be created at migration time.
-    }
-}
-# Configuración de caché
-CACHES = {
-    'default': {
-        'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': os.getenv("REDIS_LOCATION", 'redis://redis:6379/1'),
-        'OPTIONS': {
-            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-        }
-    }
+    "default": dj_database_url.config(
+        # Replace this value with your local database's connection string.
+        default="postgresql://myuser:mypassword@db:5432/mydatabase",
+        conn_max_age=600,
+    )
 }
 
+
+# Configuración de caché
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": os.getenv("REDIS_LOCATION", "redis://redis:6379/1"),
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        },
+    }
+}
 
 
 # Password validation
@@ -167,3 +165,23 @@ REST_FRAMEWORK = {
 }
 
 DJANGO_FIRST_PASSWORD = os.getenv("DJANGO_FIRST_PASSWORD", "testpassword")
+CORS_ALLOW_ALL_ORIGINS = True
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "level": "DEBUG",
+            "class": "logging.StreamHandler",
+            "stream": sys.stdout,
+        },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["console"],
+            "level": "DEBUG",
+            "propagate": True,
+        },
+    },
+}

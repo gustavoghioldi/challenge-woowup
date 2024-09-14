@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class EmailConfigurationModel(models.Model):
     broker_name = models.CharField(max_length=255, primary_key=True)
     broker_configuration = models.JSONField()

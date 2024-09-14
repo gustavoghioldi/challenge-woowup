@@ -9,6 +9,7 @@ class EmailConfigurationService:
             "broker_name", "broker_configuration"
         )
         # Convertir los resultados en un diccionario
+
         config_dict = {
             config["broker_name"]: config["broker_configuration"]
             for config in configurations

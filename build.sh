@@ -8,3 +8,4 @@ pip install -r requirements.txt
 # Apply any outstanding database migrations
 python manage.py migrate
 python manage.py createfirstuser
+python manage.py deletecache

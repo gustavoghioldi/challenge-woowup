@@ -45,6 +45,36 @@
             "env": {
                 "LOCAL":"1"
             }
+        },
+        {
+            "name": "Python Debugger: Dump",
+            "type": "debugpy",
+            "request": "launch",
+            "args": [
+                "dumpdata", "email_configuration", ">", "basic_conf.json"
+            ],
+            "django": true,
+            "autoStartBrowser": false,
+            "program": "${workspaceFolder}/manage.py",
+            "env": {
+                "LOCAL":"1"
+            },
+            
+        },
+        {
+            "name": "Python Debugger: loaddata",
+            "type": "debugpy",
+            "request": "launch",
+            "args": [
+                "loaddata", "fixtures/basic_conf.json"
+            ],
+            "django": true,
+            "autoStartBrowser": false,
+            "program": "${workspaceFolder}/manage.py",
+            "env": {
+                "LOCAL":"1"
+            },
+            
         }
     ]
 }

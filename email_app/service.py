@@ -42,16 +42,22 @@ class HandleEmailService:
     def sending(self, subject, message, from_email, recipient_list) -> list:
         max_attempts = len(self.backends)
         if max_attempts == 0:
-            return {"error": "There are no services available, you must add at least one"}, status.HTTP_424_FAILED_DEPENDENCY
-        
+            return {
+                "error": "There are no services available, you must add at least one. see: https://2trdeh54hp.apidog.io/api-10084794"
+            }, status.HTTP_424_FAILED_DEPENDENCY
+
         for attempt in range(max_attempts):
             try:
                 self.__send_my_email(
                     subject, message, from_email, recipient_list, attempt
                 )
-                return {"message": f"Emails sent successfully with {self.backends[attempt]}"}, status.HTTP_200_OK
+                return {
+                    "message": f"Emails sent successfully with {self.backends[attempt]}"
+                }, status.HTTP_200_OK
             except AnymailAPIError as e:
-                
+
                 logger.error(f"Intento {attempt + 1} fallido: {str(e)}")
                 if attempt + 1 == max_attempts:
-                    return {"error": "Cannot establish connection with any messaging service"}, status.HTTP_424_FAILED_DEPENDENCY
+                    return {
+                        "error": "Cannot establish connection with any messaging service"
+                    }, status.HTTP_424_FAILED_DEPENDENCY

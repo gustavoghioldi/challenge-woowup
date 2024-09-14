@@ -1,11 +1,8 @@
-import logging
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import ValidationError
 from .serializers import EmailConfigurationSerializer
 from .models import EmailConfigurationModel
-
-logger = logging.getLogger(__name__)
 
 
 class EmailConfigurationListCreateAPIView(ListCreateAPIView):
