@@ -19,7 +19,14 @@ class HandleEmailService:
         ]
         return get_connection(**backend_path)
 
-    def __send_my_email(self, subject, message, from_email, recipient_list, attempt):
+    def __send_my_email(
+        self,
+        subject: str,
+        message: str,
+        from_email: str,
+        recipient_list: list[str],
+        attempt: int,
+    ) -> None:
         backend = self.__get_email_backend(attempt)
         email = AnymailMessage(
             subject=subject,
@@ -32,15 +39,16 @@ class HandleEmailService:
         email.attach_alternative(message, "text/html")
         email.send()
 
-    def sending(self, subject, message, from_email, recipient_list):
+    def sending(self, subject, message, from_email, recipient_list) -> list:
         max_attempts = len(self.backends)
         for attempt in range(max_attempts):
             try:
                 self.__send_my_email(
                     subject, message, from_email, recipient_list, attempt
                 )
-                return {"message": "Emails sent successfully"}, status.HTTP_200_OK
+                return {"message": f"Emails sent successfully with {self.backends[attempt]}"}, status.HTTP_200_OK
             except AnymailAPIError as e:
+                
                 logger.error(f"Intento {attempt + 1} fallido: {str(e)}")
                 if attempt + 1 == max_attempts:
-                    return {"error": str(e)}, status.HTTP_500_INTERNAL_SERVER_ERROR
+                    return {"error": "Cannot establish connection with any messaging service"}, status.HTTP_424_FAILED_DEPENDENCY

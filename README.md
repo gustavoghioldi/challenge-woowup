@@ -1,7 +1,7 @@
 Woowup Challenge Backend
 ===========
 
-[Documentación funcional](https://2trdeh54hp.apidog.io/doc-664088)
+[Documentación](https://2trdeh54hp.apidog.io/doc-664088)
 
 Correr en local
 ===============

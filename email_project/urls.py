@@ -1,5 +1,5 @@
 from django.urls import path, include
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from email_auth.views import CustomTokenRefreshView, CustomTokenObtainPairView
 from email_configuration.views import (
     EmailConfigurationListCreateAPIView,
     EmailConfigurationRetrieveUpdateDestroyAPIView,
@@ -7,8 +7,15 @@ from email_configuration.views import (
 
 urlpatterns = [
     path("api/", include("email_app.urls")),
-    path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
-    path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+    path(
+        "api/token/",
+        CustomTokenObtainPairView.as_view(),
+        name="token_obtain_pair"),
+    path(
+        "api/token/refresh/",
+        CustomTokenRefreshView.as_view(),
+        name="token_refresh"
+    ),
     path(
         "api/configuration/",
         EmailConfigurationListCreateAPIView.as_view(),

@@ -27,9 +27,9 @@ SECRET_KEY = os.getenv(
 )
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = bool(os.getenv("DEBUG", None))
+DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -48,7 +48,6 @@ INSTALLED_APPS = [
     "health_check",  # required
     "health_check.db",  # stock Django health checkers
     "health_check.cache",
-    "health_check.contrib.redis",
     "email_app",
     "email_configuration",
 ]
@@ -87,33 +86,34 @@ WSGI_APPLICATION = "email_project.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.postgresql",
-#         "NAME": os.getenv("POSTGRES_DB", "mydatabase"),
-#         "USER": os.getenv("POSTGRES_USER", "myuser"),
-#         "PASSWORD": os.getenv("POSTGRES_PASSWORD", "mypassword"),
-#         "HOST": "localhost",
-#         "PORT": os.getenv("POSTGRES_PORT", 5432),
-#     }
-# }
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": "mydatabase",  # This is where you put the name of the db file.
-        # If one doesn't exist, it will be created at migration time.
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.getenv("POSTGRES_DB", "mydatabase"),
+        "USER": os.getenv("POSTGRES_USER", "myuser"),
+        "PASSWORD": os.getenv("POSTGRES_PASSWORD", "mypassword"),
+        "HOST": os.getenv("POSTGRES_HOST", "db"),
+        "PORT": os.getenv("POSTGRES_PORT", 5432),
     }
 }
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": "mydatabase",  # This is where you put the name of the db file.
+#         # If one doesn't exist, it will be created at migration time.
+#     }
+# }
 # Configuración de caché
 CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": os.getenv("REDIS_LOCATION", "redis://localhost:6379/1"),
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-        },
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': os.getenv("REDIS_LOCATION", 'redis://redis:6379/1'),
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
     }
 }
+
 
 
 # Password validation
@@ -161,6 +161,11 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
+    "DEFAULT_THROTTLE_CLASSES": [
+        "rest_framework.throttling.AnonRateThrottle",
+        "rest_framework.throttling.UserRateThrottle",
+    ],
+    "DEFAULT_THROTTLE_RATES": {"anon": "100/day", "user": "1000/day"},
 }
 
 DJANGO_FIRST_PASSWORD = os.getenv("DJANGO_FIRST_PASSWORD", "testpassword")

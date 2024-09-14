@@ -1,12 +1,10 @@
 from django.test import TestCase
+from unittest.mock import patch
+from django.contrib.auth.models import User
 from rest_framework.test import APIClient
 from rest_framework import status
-from django.contrib.auth.models import User
-from unittest.mock import patch
-from django.core.mail import send_mail
-from .serializers import EmailSerializer
-from rest_framework_simplejwt.tokens import RefreshToken
 from anymail.exceptions import AnymailAPIError
+from .serializers import EmailSerializer
 
 
 class EmailSerializerTest(TestCase):

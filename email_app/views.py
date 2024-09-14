@@ -3,6 +3,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.throttling import UserRateThrottle
 from .serializers import EmailSerializer
 from .service import HandleEmailService
 
@@ -11,6 +12,7 @@ logger = logging.getLogger(__name__)
 
 class SendEmailView(APIView):
     permission_classes = [IsAuthenticated]
+    throttle_classes = [UserRateThrottle]
 
     def post(self, request) -> Response:
         serializer = EmailSerializer(data=request.data)

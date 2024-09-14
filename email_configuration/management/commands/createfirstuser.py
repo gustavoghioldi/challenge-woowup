@@ -4,7 +4,6 @@ from email_project.settings import DJANGO_FIRST_PASSWORD
 
 
 class Command(BaseCommand):
-
     def handle(self, *args, **options):
         User = get_user_model()
         if User.objects.count() == 0:
